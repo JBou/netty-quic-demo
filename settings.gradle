@@ -1,0 +1,3 @@
+include ':android', ':desktop'
+rootProject.name = 'netty-quic-demo'
+

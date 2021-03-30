@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name 'oss-sonatype-snapshot'
+        url 'http://oss.sonatype.org/content/repositories/snapshots'
+    }
+    maven {
+        name 'oss-sonatype-release'
+        url 'http://oss.sonatype.org/content/repositories/releases'
+    }
+    jcenter()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'io.netty:netty-all:4.1.61.Final'
+    implementation 'io.netty.incubator:netty-incubator-codec-quic:0.0.10.Final:windows-x86_64'
+    implementation 'io.netty.incubator:netty-incubator-codec-quic:0.0.10.Final:linux-x86_64'
+    implementation 'io.netty.incubator:netty-incubator-codec-quic:0.0.10.Final:linux-aarch_64'
+    implementation 'io.netty.incubator:netty-incubator-codec-quic:0.0.6.Final:osx-x86_64'
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+                'Implementation-Version': version,
+                'Main-Class': 'net.patzleiner.quicserver.QuicServerExample'
+    }
+}
+
+//Only make shaded jar
+tasks.jar.dependsOn "shadowJar"
+tasks.jar.enabled = false
+
+shadowJar {
+    classifier = ''
+    mergeServiceFiles()
+    return true
+}
