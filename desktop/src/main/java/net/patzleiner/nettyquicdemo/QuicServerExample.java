@@ -17,6 +17,7 @@ package net.patzleiner.nettyquicdemo;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioDatagramChannel;
@@ -28,6 +29,7 @@ import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.net.InetSocketAddress;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public final class QuicServerExample {
@@ -88,18 +90,8 @@ public final class QuicServerExample {
                                     LOGGER.info(byteBuf.toString(CharsetUtil.US_ASCII));
                                     ByteBuf buffer = ctx.alloc().directBuffer();
 
-                                    //buffer.writeCharSequence("Pong! at " + new Date().toString() + "\r\n", CharsetUtil.US_ASCII);
+                                    buffer.writeCharSequence("Pong! at " + new Date().toString() + "\r\n", CharsetUtil.US_ASCII);
                                     //ByteBuf buffer = Unpooled.copiedBuffer("Pong! at " + new Date().toString() + "\r\n", CharsetUtil.US_ASCII);
-
-
-                                    //Even this is crashing the app:
-                                    //buffer.writeShort(5);
-
-                                    //Writing an empty buffer (just calling ctx.writeAndFlush(buffer))
-                                    // is NOT crashing the Android app. But if we comment
-                                    //out one of the lines above, it's crashing
-
-                                    //The following line is not making any problem:
 
                                     // Write the buffer and shutdown the output by writing a FIN.
                                     ctx.writeAndFlush(buffer).addListener(QuicStreamChannel.SHUTDOWN_OUTPUT);

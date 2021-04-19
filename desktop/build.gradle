@@ -24,11 +24,11 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'io.netty:netty-all:4.1.61.Final'
-    implementation 'io.netty.incubator:netty-incubator-codec-quic:0.0.10.Final:windows-x86_64'
-    implementation 'io.netty.incubator:netty-incubator-codec-quic:0.0.10.Final:linux-x86_64'
-    implementation 'io.netty.incubator:netty-incubator-codec-quic:0.0.10.Final:linux-aarch_64'
-    implementation 'io.netty.incubator:netty-incubator-codec-quic:0.0.6.Final:osx-x86_64'
+    implementation 'io.netty:netty-all:4.1.63.Final'
+    implementation 'io.netty.incubator:netty-incubator-codec-quic:0.0.11.Final-SNAPSHOT:windows-x86_64'
+    implementation 'io.netty.incubator:netty-incubator-codec-quic:0.0.11.Final-SNAPSHOT:linux-x86_64'
+    implementation 'io.netty.incubator:netty-incubator-codec-quic:0.0.11.Final-SNAPSHOT:linux-aarch_64'
+    //implementation 'io.netty.incubator:netty-incubator-codec-quic:0.0.11.Final:osx-x86_64'
 
 }
 
