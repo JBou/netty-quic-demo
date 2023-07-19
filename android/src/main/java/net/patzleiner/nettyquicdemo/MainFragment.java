@@ -37,7 +37,7 @@ public class MainFragment extends Fragment {
 
     private TextView mTextView;
     private Button mButton;
-    private String inetAddress = "192.168.1.6";
+    private String inetAddress = "192.168.0.150";
     private int port = 9999;
 
     public static MainFragment newInstance() {
@@ -108,9 +108,10 @@ public class MainFragment extends Fragment {
                             @Override
                             public void channelRead(@NotNull ChannelHandlerContext ctx, @NotNull Object msg) {
                                 ByteBuf byteBuf = (ByteBuf) msg;
-                                requireActivity().runOnUiThread(
-                                        () -> addMessage(byteBuf.toString(CharsetUtil.US_ASCII) + "\r\n"));
+                                String message = byteBuf.toString(CharsetUtil.US_ASCII);
                                 byteBuf.release();
+                                requireActivity().runOnUiThread(
+                                        () -> addMessage(message + "\r\n"));
                             }
 
                             @Override
