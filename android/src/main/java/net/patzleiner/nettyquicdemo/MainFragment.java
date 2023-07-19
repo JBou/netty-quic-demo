@@ -1,7 +1,5 @@
 package net.patzleiner.nettyquicdemo;
 
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -27,7 +25,7 @@ import io.netty.channel.socket.nio.NioDatagramChannel;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import io.netty.incubator.codec.quic.*;
 import io.netty.util.CharsetUtil;
-import io.netty.util.internal.PlatformDependent;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.InetSocketAddress;
 import java.util.Date;
@@ -39,7 +37,7 @@ public class MainFragment extends Fragment {
 
     private TextView mTextView;
     private Button mButton;
-    private String inetAddress = "192.168.1.16";
+    private String inetAddress = "192.168.1.6";
     private int port = 9999;
 
     public static MainFragment newInstance() {
@@ -91,7 +89,7 @@ public class MainFragment extends Fragment {
                 QuicChannel quicChannel = QuicChannel.newBootstrap(channel)
                         .streamHandler(new ChannelInboundHandlerAdapter() {
                             @Override
-                            public void channelActive(ChannelHandlerContext ctx) {
+                            public void channelActive(@NotNull ChannelHandlerContext ctx) {
                                 // As we did not allow any remote initiated streams we will never see this method called.
                                 // That said just let us keep it here to demonstrate that this handle would be called
                                 // for each remote initiated stream.
@@ -103,15 +101,14 @@ public class MainFragment extends Fragment {
                         .connect()
                         .get();
 
-                Objects.requireNonNull(getActivity()).runOnUiThread(
-                        () -> addMessage(new Date().toString() + " -> Connected \r\n"));
+                requireActivity().runOnUiThread(() -> addMessage(new Date() + " -> Connected \r\n"));
 
                 QuicStreamChannel streamChannel = quicChannel.createStream(QuicStreamType.BIDIRECTIONAL,
                         new ChannelInboundHandlerAdapter() {
                             @Override
-                            public void channelRead(ChannelHandlerContext ctx, Object msg) {
+                            public void channelRead(@NotNull ChannelHandlerContext ctx, @NotNull Object msg) {
                                 ByteBuf byteBuf = (ByteBuf) msg;
-                                Objects.requireNonNull(getActivity()).runOnUiThread(
+                                requireActivity().runOnUiThread(
                                         () -> addMessage(byteBuf.toString(CharsetUtil.US_ASCII) + "\r\n"));
                                 byteBuf.release();
                             }
@@ -123,16 +120,16 @@ public class MainFragment extends Fragment {
                                     ((QuicChannel) ctx.channel().parent()).close(true, 0,
                                             ctx.alloc().directBuffer(16)
                                                     .writeBytes(new byte[]{'k', 't', 'h', 'x', 'b', 'y', 'e'}));
-                                    Objects.requireNonNull(getActivity()).runOnUiThread(
-                                            () -> addMessage(new Date().toString() + " -> Disconnected \r\n"));
+                                    requireActivity().runOnUiThread(
+                                            () -> addMessage(new Date() + " -> Disconnected \r\n"));
                                 }
                             }
                         }).sync().getNow();
 
                 //Let's send a message every second
-                group.scheduleAtFixedRate(() -> {
-                    streamChannel.writeAndFlush(Unpooled.copiedBuffer("Ping at " + new Date().toString() + "\r\n", CharsetUtil.US_ASCII));
-                }, 0, 1, TimeUnit.SECONDS);
+                group.scheduleAtFixedRate(() ->
+                                streamChannel.writeAndFlush(Unpooled.copiedBuffer("Ping at " + new Date() + "\r\n", CharsetUtil.US_ASCII)),
+                        0, 1, TimeUnit.SECONDS);
 
 
                 // Write the data and send the FIN. After this its not possible anymore to write any more data.
@@ -164,10 +161,7 @@ public class MainFragment extends Fragment {
         // of the final line and then subtracting the TextView's height
         final int scrollAmount = mTextView.getLayout().getLineTop(mTextView.getLineCount()) - mTextView.getHeight();
         // if there is no need to scroll, scrollAmount will be <=0
-        if (scrollAmount > 0)
-            mTextView.scrollTo(0, scrollAmount);
-        else
-            mTextView.scrollTo(0, 0);
+        mTextView.scrollTo(0, Math.max(scrollAmount, 0));
     }
 
 

@@ -36,5 +36,15 @@
       <option name="name" value="oss-sonatype-release" />
       <option name="url" value="http://oss.sonatype.org/content/repositories/releases" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="oss-sonatype-release" />
+      <option name="name" value="oss-sonatype-release" />
+      <option name="url" value="https://oss.sonatype.org/content/repositories/releases" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="oss-sonatype-snapshot" />
+      <option name="name" value="oss-sonatype-snapshot" />
+      <option name="url" value="https://oss.sonatype.org/content/repositories/snapshots" />
+    </remote-repository>
   </component>
 </project>

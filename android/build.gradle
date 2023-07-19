@@ -1,10 +1,10 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath 'com.android.tools.build:gradle:8.0.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -14,13 +14,12 @@ buildscript {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdk 33
 
     defaultConfig {
         applicationId "net.patzleiner.nettyquicdemo"
-        minSdkVersion 24
-        targetSdkVersion 30
+        minSdk 24
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -42,21 +41,38 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/io.netty.versions.properties'
+    }
+    namespace 'net.patzleiner.nettyquicdemo'
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    implementation 'io.netty:netty-all:4.1.63.Final'
+
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
+    implementation 'io.netty:netty-all:4.1.86.Final'
+    implementation 'io.netty.incubator:netty-incubator-codec-classes-quic:0.0.48.Final'
+    //implementation 'io.netty.incubator:netty-incubator-codec-native-quic:0.0.49.Final-SNAPSHOT:android'
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
+    maven {
+        name 'oss-sonatype-snapshot'
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+    maven {
+        name 'oss-sonatype-release'
+        url 'https://oss.sonatype.org/content/repositories/releases'
+    }
     google()
 }

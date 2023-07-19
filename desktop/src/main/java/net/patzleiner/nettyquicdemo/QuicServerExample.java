@@ -17,7 +17,6 @@ package net.patzleiner.nettyquicdemo;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioDatagramChannel;
@@ -35,10 +34,12 @@ import java.util.concurrent.TimeUnit;
 public final class QuicServerExample {
 
     private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(QuicServerExample.class);
+    private static int PORT = 9999;
 
     private QuicServerExample() { }
 
     public static void main(String[] args) throws Exception {
+        System.out.println("Starting");
         SelfSignedCertificate selfSignedCertificate = new SelfSignedCertificate();
         QuicSslContext context = QuicSslContextBuilder.forServer(
                 selfSignedCertificate.privateKey(), null, selfSignedCertificate.certificate())
@@ -107,7 +108,8 @@ public final class QuicServerExample {
             Channel channel = bs.group(group)
                     .channel(NioDatagramChannel.class)
                     .handler(codec)
-                    .bind(new InetSocketAddress(9999)).sync().channel();
+                    .bind(new InetSocketAddress(PORT)).sync().channel();
+            System.out.println("Started on port " + PORT);
             channel.closeFuture().sync();
         } finally {
             group.shutdownGracefully();
