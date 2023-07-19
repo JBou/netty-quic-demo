@@ -27,12 +27,12 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
-    implementation 'io.netty:netty-all:4.1.86.Final'
-    implementation 'io.netty.incubator:netty-incubator-codec-classes-quic:0.0.48.Final'
-    implementation 'io.netty.incubator:netty-incubator-codec-native-quic:0.0.48.Final:windows-x86_64'
-    implementation 'io.netty.incubator:netty-incubator-codec-native-quic:0.0.48.Final:linux-x86_64'
-    implementation 'io.netty.incubator:netty-incubator-codec-native-quic:0.0.48.Final:linux-aarch_64'
-    //implementation 'io.netty.incubator:netty-incubator-codec-native-quic:0.0.48.Final:osx-x86_64'
+    implementation "io.netty:netty-all:${rootProject.ext.nettyVersion}"
+    implementation "io.netty.incubator:netty-incubator-codec-classes-quic:${rootProject.ext.nettyQuicVersion}"
+    implementation "io.netty.incubator:netty-incubator-codec-native-quic:${rootProject.ext.nettyQuicVersion}:windows-x86_64"
+    implementation "io.netty.incubator:netty-incubator-codec-native-quic:${rootProject.ext.nettyQuicVersion}:linux-x86_64"
+    implementation "io.netty.incubator:netty-incubator-codec-native-quic:${rootProject.ext.nettyQuicVersion}:linux-aarch_64"
+    //implementation "io.netty.incubator:netty-incubator-codec-quic:${rootProject.ext.nettyQuicVersion}:osx-x86_64"
 
 }
 

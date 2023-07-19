@@ -95,7 +95,7 @@ public final class QuicServerExample {
                                     //ByteBuf buffer = Unpooled.copiedBuffer("Pong! at " + new Date().toString() + "\r\n", CharsetUtil.US_ASCII);
 
                                     // Write the buffer and shutdown the output by writing a FIN.
-                                    ctx.writeAndFlush(buffer).addListener(QuicStreamChannel.SHUTDOWN_OUTPUT);
+                                    ctx.writeAndFlush(buffer);//.addListener(QuicStreamChannel.SHUTDOWN_OUTPUT);
                                 } finally {
                                     byteBuf.release();
                                 }

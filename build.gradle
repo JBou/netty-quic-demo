@@ -5,6 +5,13 @@ plugins {
 group 'org.example'
 version '1.0-SNAPSHOT'
 
+ext {
+    //nettyVersion = '4.1.94.Final'
+    //nettyQuicVersion = '0.0.48.Final'
+    nettyVersion = '4.1.89.Final'
+    nettyQuicVersion = '0.0.38.Final'
+}
+
 repositories {
     mavenCentral()
 }
