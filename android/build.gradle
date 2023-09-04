@@ -57,6 +57,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    implementation 'com.gitlab.mvysny.slf4j:slf4j-handroid:2.0.4'
 
     implementation "io.netty:netty-all:${rootProject.ext.nettyVersion}"
     implementation "io.netty.incubator:netty-incubator-codec-classes-quic:${rootProject.ext.nettyQuicVersion}"
