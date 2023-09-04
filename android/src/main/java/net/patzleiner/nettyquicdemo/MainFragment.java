@@ -65,7 +65,7 @@ public class MainFragment extends Fragment {
     private void OnButtonClick() {
 
         Log.d("SUPPORTED_ABIS", String.join(", ", Build.SUPPORTED_ABIS));
-
+        requireActivity().runOnUiThread(() -> addMessage("SUPPORTED_ABIS: " + String.join(", ", Build.SUPPORTED_ABIS) + "\n"));
         Thread thread = new Thread(() -> {
             QuicSslContext context = QuicSslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE).
                     applicationProtocols("http/0.9").build();
@@ -101,7 +101,7 @@ public class MainFragment extends Fragment {
                         .connect()
                         .get();
 
-                requireActivity().runOnUiThread(() -> addMessage(new Date() + " -> Connected \r\n"));
+                requireActivity().runOnUiThread(() -> addMessage(new Date() + " -> Connected"));
 
                 QuicStreamChannel streamChannel = quicChannel.createStream(QuicStreamType.BIDIRECTIONAL,
                         new ChannelInboundHandlerAdapter() {
@@ -110,8 +110,7 @@ public class MainFragment extends Fragment {
                                 ByteBuf byteBuf = (ByteBuf) msg;
                                 String message = byteBuf.toString(CharsetUtil.US_ASCII);
                                 byteBuf.release();
-                                requireActivity().runOnUiThread(
-                                        () -> addMessage(message + "\r\n"));
+                                requireActivity().runOnUiThread(() -> addMessage(message));
                             }
 
                             @Override
@@ -121,8 +120,7 @@ public class MainFragment extends Fragment {
                                     ((QuicChannel) ctx.channel().parent()).close(true, 0,
                                             ctx.alloc().directBuffer(16)
                                                     .writeBytes(new byte[]{'k', 't', 'h', 'x', 'b', 'y', 'e'}));
-                                    requireActivity().runOnUiThread(
-                                            () -> addMessage(new Date() + " -> Disconnected \r\n"));
+                                    requireActivity().runOnUiThread(() -> addMessage(new Date() + " -> Disconnected"));
                                 }
                             }
                         }).sync().getNow();
@@ -145,6 +143,7 @@ public class MainFragment extends Fragment {
                 channel.close().sync();
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
+                requireActivity().runOnUiThread(() -> addMessage(e.toString()));
             } finally {
                 group.shutdownGracefully();
             }

@@ -91,7 +91,7 @@ public final class QuicServerExample {
                                     LOGGER.info(byteBuf.toString(CharsetUtil.US_ASCII));
                                     ByteBuf buffer = ctx.alloc().directBuffer();
 
-                                    buffer.writeCharSequence("Pong! at " + new Date().toString() + "\r\n", CharsetUtil.US_ASCII);
+                                    buffer.writeCharSequence("Pong! at " + new Date() + "\r\n", CharsetUtil.US_ASCII);
                                     //ByteBuf buffer = Unpooled.copiedBuffer("Pong! at " + new Date().toString() + "\r\n", CharsetUtil.US_ASCII);
 
                                     // Write the buffer and shutdown the output by writing a FIN.

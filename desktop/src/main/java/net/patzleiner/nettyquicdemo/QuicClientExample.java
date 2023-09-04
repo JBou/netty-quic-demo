@@ -103,7 +103,7 @@ public final class QuicClientExample {
                     }).sync().getNow();
 
             group.scheduleAtFixedRate(() -> {
-                streamChannel.writeAndFlush(Unpooled.copiedBuffer("Ping at " + new Date().toString() + "\r\n", CharsetUtil.US_ASCII));
+                streamChannel.writeAndFlush(Unpooled.copiedBuffer("Ping at " + new Date() + "\r\n", CharsetUtil.US_ASCII));
             }, 0, 1, TimeUnit.SECONDS);
 
             /*
