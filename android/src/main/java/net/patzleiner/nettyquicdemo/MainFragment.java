@@ -37,7 +37,7 @@ public class MainFragment extends Fragment {
 
     private TextView mTextView;
     private Button mButton;
-    private String inetAddress = "192.168.0.150";
+    private String inetAddress = "192.168.1.5";
     private int port = 9999;
 
     public static MainFragment newInstance() {
@@ -54,12 +54,6 @@ public class MainFragment extends Fragment {
         mTextView.setMovementMethod(new ScrollingMovementMethod());
         mButton.setOnClickListener(v -> OnButtonClick());
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // TODO: Use the ViewModel
     }
 
     private void OnButtonClick() {
@@ -127,12 +121,13 @@ public class MainFragment extends Fragment {
 
                 //Let's send a message every second
                 group.scheduleAtFixedRate(() ->
+                        //TODO Test why removing "\r\n" breaks the connection? It doesn't get sent without "\r\n"
                                 streamChannel.writeAndFlush(Unpooled.copiedBuffer("Ping at " + new Date() + "\r\n", CharsetUtil.US_ASCII)),
                         0, 1, TimeUnit.SECONDS);
 
 
                 // Write the data and send the FIN. After this its not possible anymore to write any more data.
-                //streamChannel.writeAndFlush(Unpooled.copiedBuffer("GET /\r\n", CharsetUtil.US_ASCII))
+                //streamChannel.writeAndFlush(Unpooled.copiedBuffer("GET /", CharsetUtil.US_ASCII))
                 //       .addListener(QuicStreamChannel.SHUTDOWN_OUTPUT);
 
 
